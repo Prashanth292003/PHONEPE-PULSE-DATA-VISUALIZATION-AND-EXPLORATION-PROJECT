@@ -4,18 +4,18 @@ import pandas as pd
 # import matplotlib.pyplot as plt
 # import plotly.gragh_objects as go
 from PIL import Image
-import altair 
+# import altair 
 import plotly.express as px
 # import streamlit_lottie
 # st.set_page_config(layout= "wide")
 st.set_page_config(page_title="Streamlit App", page_icon=":rocket:", layout="wide", initial_sidebar_state="expanded")
 
-logo_path = r"C:\Users\Senthil\Downloads\phonepeimage.png"
+logo_path = r"C:\Users\Senthil\Desktop\DS\Projects I & V\phonepeimage.png"
 image = Image.open(logo_path)
 st.image(image, width=300)
 st.title("PHONEPE DATA VISUALIZATION AND EXPLORATION")
 
-video_path = "C:/Users/Senthil/Downloads/phonepead.mp4"
+video_path = "C:/Users/Senthil\Desktop/DS/Projects I & V/phonepead.mp4"
 css = '''
 <style>
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
@@ -24,7 +24,7 @@ css = '''
 </style>
 '''
 st.markdown(css, unsafe_allow_html=True)
-path3 = r"C:\Users\Senthil\Downloads\la.png"
+path3 = r"C:\Users\Senthil\Desktop\DS\Projects I & V\la.png"
 image2 = Image.open(path3)
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["***HOME***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***EXPLORE DATA-CHARTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***GEO VISULAIZATION***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", '***REPORTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','***ABOUT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',"***CONTACT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"])
 
@@ -40,7 +40,7 @@ with tab1:
 
 with tab2:
   col1,col2= st.columns(2)
-  logo_path = r"C:\Users\Senthil\Downloads\answer.png"
+  logo_path = r"C:\Users\Senthil\Desktop\DS\Projects I & V\answer.png"
   image = Image.open(logo_path)
   col1.image(image, width=300)
   col2.title('EXPLORE HERE')
@@ -476,13 +476,13 @@ with tab4:
   col1, col2 = st.columns(2)
   col1.header("Digital Payments in India: A US$10 Tn Opportunity!")
   col1.write("Check out the new PhonePe Pulse - BCG report on what the future holds for digital payments in India.")
-  file_path = 'C:/Users/Senthil/Downloads/report.pdf'
+  file_path = 'C:/Users/Senthil/Desktop/DS/Projects I & V/report.pdf'
   with open(file_path, 'rb') as file:
     file_content = file.read()
   col1.download_button('Download Report', file_content, key='file_download', file_name='report.pdf')
 
 
-  logo_path = r"C:\Users\Senthil\Downloads\imp.png"
+  logo_path = r"C:\Users\Senthil\Desktop\DS\Projects I & V\imp.png"
   image = Image.open(logo_path)
   # resized_image = image.resize((400, image.size[2]))
   # col2.image(resized_image)
@@ -494,12 +494,12 @@ with tab5:
   st.subheader("PhonePe is an Indian digital payments and financial technology company")
   st.subheader("To offer every Indian equal opportunity to accelerate their progress by unlocking the flow of money and access to services")
   col1, col2 = st.columns(2)
-  path = "C:/Users/Senthil/Downloads/PhonePe_Pulse.jpg"
+  path = "C:/Users/Senthil/Desktop/DS/Projects I & V/PhonePe_Pulse.jpg"
   image = Image.open(path)
   col1.image(image,width=400)
   col2.write("PhonePe, a leading digital payments platform in India, offers a comprehensive range of services, including secure UPI-based money transfers, mobile recharges, bill payments, and online shopping. With a user-friendly interface, the app also provides features like in-app services for food ordering and travel bookings, cashback rewards, and gold purchases. Targeting both consumers and businesses, PhonePe ensures secure transactions, integrates banking services, and introduces innovative offerings such as insurance products. Continuously evolving, PhonePe remains a versatile and trusted platform, playing a pivotal role in the digital payment landscape in India.")
   col2.write("PhonePe's future plans may encompass ongoing innovation, service diversification, and user experience enhancements. This could involve integrating new technologies, forging strategic partnerships, and adapting to changing market needs. To stay informed about PhonePe's latest developments and future strategies, it's advisable to refer to official announcements, press releases, and updates from the company through its website or reliable news sources.")
-  A,B,c = st.columns(3)
+  A,B,C = st.columns(3)
   B.title("Our Founders")
   col1, col2, col3 = st.columns(3)
   col1.subheader("Sameer Nigam")
@@ -513,7 +513,7 @@ with tab5:
 
 with tab6:
   col1, col2 = st.columns(2)
-  path = "C:/Users/Senthil/Downloads/video1.mp4"
+  path = "C:/Users/Senthil/Desktop/DS/Projects I & V/video1.mp4"
   col2.video(path)
   col1.subheader("Customer Support")
   col1.write("To get instant help, tap  on your PhonePe app home screen & select the relevant topic.")
