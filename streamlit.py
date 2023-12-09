@@ -1,7 +1,7 @@
 import mysql.connector
 import streamlit as st
 import pandas as pd
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 # import plotly.gragh_objects as go
 from PIL import Image
 # import altair 
@@ -26,7 +26,7 @@ css = '''
 st.markdown(css, unsafe_allow_html=True)
 path3 = r"C:\Users\Senthil\Desktop\DS\Projects I & V\la.png"
 image2 = Image.open(path3)
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["***HOME***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***EXPLORE DATA-CHARTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***GEO VISULAIZATION***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", '***REPORTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','***ABOUT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',"***CONTACT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["***HOME***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***EXPLORE DATA-CHARTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "***GEO VISULAIZATION***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;","***SUNBURST VISULAIZATION***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",'***REPORTS***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','***ABOUT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',"***CONTACT US***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"])
 
 with tab1:
   col1,col2= st.columns(2)
@@ -106,7 +106,8 @@ with tab2 and col2:
       col1.write(Ans)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.bar_chart(Ans,x = 'Brands', y = 'Transaction_count')
+      fig = px.bar(Ans,x = 'Brands', y = 'Transaction_count')
+      col1.plotly_chart(fig)
       col1.button("Clear")
       
       
@@ -133,7 +134,8 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.area_chart(Finals, y= 'highest_transaction_amount', x = 'District' )
+      fig = px.line(Finals, y= 'highest_transaction_amount', x = 'District' )
+      col1.plotly_chart(fig)
       col1.button("Clear")
     
     
@@ -156,7 +158,8 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.line_chart(Finals, x= 'Transaction_count', y = 'Transaction_type')
+      fig = px.scatter(Finals, y= 'Transaction_count', x = 'Transaction_type')
+      col1.plotly_chart(fig)
       col1.button("Clear")
       
     
@@ -181,9 +184,14 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.scatter_chart(Finals, x= 'Lowest_transaction_amount', y = 'District' )
+      fig, ax = plt.subplots()
+      ax.bar(Finals['District'], Finals['Lowest_transaction_amount'], color = "purple", hatch = "x")
+      ax.set_xlabel('District')
+      ax.set_ylabel('Lowest Transaction Amount')
+      ax.legend(["Lowest_transaction_amount"])
+      col1.pyplot(fig)
       col1.button("Clear") 
-      
+       
       
 def ques5():
   sql_query5 = """
@@ -261,7 +269,7 @@ def ques8():
     SELECT  States, Districts, RegisteredUser, AppOpens
     FROM register_user
     WHERE Years = %s AND Quarter = %s AND States = %s
-   order by AppOpens DESC
+   order by AppOpens DESC,
    LIMIT 3;"""
   cursor.execute(sql_query8,(Years, Quarter, States))
   results = cursor.fetchall()
@@ -277,7 +285,8 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.bar_chart(Finals, x = 'AppOpens',y ='RegisteredUser' )
+      fig = px.box(Finals['Districts'], Finals['AppOpens'])
+      col1.plotly_chart(fig)
       col1.button("Clear")
     
     
@@ -331,7 +340,12 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.line_chart(Finals, y = 'District', x = 'Lowest_Transaction_count')
+      fig, ax = plt.subplots()
+      ax.plot(Finals['District'], Finals['Lowest_Transaction_count'])
+      ax.legend(["Lowest_Transaction_count"])
+      ax.set_xlabel("District")
+      ax.set_ylabel("Lowest_Transaction_count")
+      col1.pyplot(fig)
       col1.button("Clear")
     
     
@@ -384,7 +398,7 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.bar_chart(Finals, x = 'pincodes', y = 'Highest_Transaction_count')
+      col1.area_chart(Finals, x = 'pincodes',  y = 'Highest_Transaction_count')
       col1.button("Clear")
     
     
@@ -409,7 +423,7 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.scatter_chart(Finals, x = 'Lowest_Transaction_count',y = 'pincodes')
+      col1.scatter_chart(Finals, y = 'Lowest_Transaction_count',x= 'pincodes')
       col1.button("Clear")
       
     
@@ -437,7 +451,9 @@ with tab2 and col2:
       col1.write(Finals)
       col1.markdown("""""""        """"""""")
       col1.markdown("""""""        """"""""")
-      col1.area_chart(Finals,x = 'pincodes', y = 'Lowest_RegisteredUser' )
+      fig = px.box( Finals['pincodes'], Finals['Lowest_RegisteredUser'])
+      fig.update_layout(title_text='Box Plot')
+      col1.plotly_chart(fig)
       col1.button("Clear")
     
     
@@ -471,7 +487,7 @@ with tab2 and col2:
       
       
       
-with tab4:
+with tab5:
   st.title("Comprehensive Report:")
   col1, col2 = st.columns(2)
   col1.header("Digital Payments in India: A US$10 Tn Opportunity!")
@@ -489,7 +505,7 @@ with tab4:
   col2.image(image, width=650)
   
 
-with tab5:
+with tab6:
   st.subheader("INDIA'S BEST TRANSACTION APP")
   st.subheader("PhonePe is an Indian digital payments and financial technology company")
   st.subheader("To offer every Indian equal opportunity to accelerate their progress by unlocking the flow of money and access to services")
@@ -511,7 +527,7 @@ with tab5:
 
 
 
-with tab6:
+with tab7:
   col1, col2 = st.columns(2)
   path = "C:/Users/Senthil/Desktop/DS/Projects I & V/video1.mp4"
   col2.video(path)
@@ -675,7 +691,7 @@ with tab3:
 
 with tab3:
   if A == 'Aggregated' and Y == 'User':
-    D = st.selectbox("select Transaction_type", ['Select','Xiaomi' ,'Samsung', 'Vivo' ,'Oppo' ,'OnePlus', 'Realme', 'Apple' ,'Motorola', 'Lenovo' ,'Huawei', 'Others' ,'Tecno' ,'Gionee' ,'Infinix' ,'Asus' ,'Micromax' ,'HMD' ,'Global', 'Lava' ,'COOLPAD', 'Lyf'])              
+    D = st.selectbox("select Brand_Type", ['Select','Xiaomi' ,'Samsung', 'Vivo' ,'Oppo' ,'OnePlus', 'Realme', 'Apple' ,'Motorola', 'Lenovo' ,'Huawei', 'Others' ,'Tecno' ,'Gionee' ,'Infinix' ,'Asus' ,'Micromax' ,'HMD' ,'Global', 'Lava' ,'COOLPAD', 'Lyf'])              
     if D!='Select':
         B = st.selectbox("select Year", ['Select',"2018","2019","2020",'2021','2022','2023'])
         Years = B
@@ -790,23 +806,165 @@ with tab3:
               if S is not None:
                 geoo4(S)
                 geoo5(S)
-            
-                
 
 
 
 
 
+query1 = """select distinct(States) from type_of_pay"""
+cursor.execute(query1)
+P = cursor.fetchall()
+V = pd.DataFrame(P, columns =["States"])
 
+
+def sun1(Q,W,E):
+    query = """SELECT Transaction_type, Transaction_count, Transaction_amount FROM type_of_pay
+               WHERE States = %s AND Years = %s AND Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=['Transaction type', 'Transaction count', 'Transaction amount'])
+    # with st.spinner("Please Wait..."):
+    fig = px.sunburst(Z, path=['Transaction type', 'Transaction count', 'Transaction amount'], hover_data={'Transaction count': True, 'Transaction amount': True} )
+    fig.update_layout(width = 800,height = 700)
+    fi = px.bar(Z, x ='Transaction type' , y = 'Transaction count')
+    return fig, fi
+  
+def sun2(Q,W,E):
+    query = """SELECT Transaction_type, Transaction_count FROM type_of_brand
+               WHERE States = %s AND Years = %s AND Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=['Transaction type', 'Transaction count'])
+    fig = px.sunburst(Z, path=['Transaction type', 'Transaction count'], hover_data={'Transaction count': True, 'Transaction type': True} )
+    fig.update_layout(width = 800,height = 700)
+    fi = px.bar(Z, x ='Transaction type' , y = 'Transaction count')
+    return fig, fi
+  
+with tab4:
+    st.subheader("EXPLORE HERE")
+    M = st.selectbox("Select",['Select',"Aggregated","Map",'Top'])
+
+with tab4:
+  if M!='Select'and M=='Aggregated':
+    l = st.selectbox("Select",['Select','Type of Payment', 'Type of Brands'])
+    if l!='Select' and l=='Type of Brands':
+      Q = st.selectbox("Select",['Select States']+list(V['States']))
+      W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+      E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+      if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+        B,U = sun2(Q, W, E)
+        st.plotly_chart(B)
+        st.plotly_chart(U)
+        
+        
+    if l!='Select' and l=='Type of Payment': 
+      Q = st.selectbox("Select",['Select States']+list(V['States']))
+      W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+      E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+      if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+          B,K = sun1(Q, W, E)
+          st.plotly_chart(B)
+          st.plotly_chart(K)
+          
+
+
+
+
+def sun3(Q,W,E):
+    query = """select District,Transaction_count ,Transaction_amount from transaction_count
+         where States = %s and  Years = %s and Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=['District', 'Transaction count','Transaction_amount'])
+    fig = px.sunburst(Z, path=['District', 'Transaction count','Transaction_amount'], hover_data={'District': True, 'Transaction count': True,'Transaction_amount':True} )
+    fig.update_layout(width = 800,height = 700)
+    fi = px.bar(Z, x = 'District', y = 'Transaction_amount')
+    return fig, fi
+
+
+
+
+def sun4(Q,W,E):
+    query = """select Districts, RegisteredUser, AppOpens from register_user
+     where States = %s and  Years = %s and Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=['District', 'RegisteredUser','AppOpens'])
+    fig = px.sunburst(Z, path=['District', 'RegisteredUser','AppOpens'], hover_data={'District': True, 'RegisteredUser': True,'AppOpens':True} )
+    fig.update_layout(width = 800,height = 700)
+    fi = px.bar(Z, x ='District' , y = 'RegisteredUser')
+    return fig, fi
+
+
+with tab4:
+  if M=='Map':
+    k = st.selectbox("Select",["Select","Total Transaction Count, Amount by Districts","Total Register User, AppOpens by Districts"])
+    if k!='Select' and k=="Total Transaction Count, Amount by Districts":
+      Q = st.selectbox("Select",['Select States']+list(V['States']))
+      W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+      E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+      if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+        B,T = sun3(Q, W, E)
+        st.plotly_chart(B)
+        st.plotly_chart(T)
+        
+  
+    if k!='Select' and k=="Total Register User, AppOpens by Districts":
+        Q = st.selectbox("Select",['Select States']+list(V['States']))
+        W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+        E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+        if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+          B, H = sun4(Q, W, E)
+          st.plotly_chart(B) 
+          st.plotly_chart(H)
+               
                 
                 
                 
                 
+def sun5(Q,W,E):
+    query = """select RegisteredUser,Pincodes from top_user
+where States = %s and  Years = %s and Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=[ 'RegisteredUser','Pincodes'])
+    fig = px.sunburst(Z, path=[ 'Pincodes','RegisteredUser'], hover_data={ 'RegisteredUser': True,'Pincodes':True} )
+    fig.update_layout(width = 800,height = 700)
+    return fig                
                 
+                
+                
+                
+def sun6(Q,W,E):
+    query = """select transaction_count,Transaction_amount,pincodes from top_transaction
+where States = %s and  Years = %s and Quarter = %s"""
+    cursor.execute(query, (Q, W, E))
+    F = cursor.fetchall()
+    Z = pd.DataFrame(F, columns=[ 'Transaction_count','pincodes','Transaction_amount'])
+    fig = px.sunburst(Z, path=[ 'pincodes','Transaction_count','Transaction_amount'], hover_data={ 'Transaction_amount': True,'pincodes':True,"Transaction_count":True} )
+    fig.update_layout(width = 800,height = 700)
+    return fig
                 
                 
 
-                
+with tab4:
+  if M=='Top':
+    k = st.selectbox("Select",["Select","Total Transaction Count, Amount by Pincodes","Total Register User by Pincodes"])
+    if k!='Select' and k=="Total Register User by Pincodes":
+      Q = st.selectbox("Select",['Select States']+list(V['States']))
+      W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+      E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+      if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+        B = sun5(Q, W, E)
+        st.plotly_chart(B)
+  
+    if k!='Select' and k=="Total Transaction Count, Amount by Pincodes":
+        Q = st.selectbox("Select",['Select States']+list(V['States']))
+        W = st.selectbox("Select", ["Select Year", "2018", '2019', '2020', '2021', '2022', '2023'])
+        E = st.selectbox("Select Quarter", ['Select Quarter','1', '2', '3', '4'])
+        if E!='Select Quarter' and Q!='Select States' and W!='Select Year':
+          B = sun6(Q, W, E)
+          st.plotly_chart(B)             
                 
                 
             
