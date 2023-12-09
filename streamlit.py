@@ -616,31 +616,48 @@ data = pd.DataFrame(states, columns=['states'])
 
 def geo1():
   sql_query2 = """
-    SELECT  Transaction_count
+    SELECT  Transaction_count, Transaction_amount
     FROM type_of_pay
     WHERE Years = %s AND Quarter = %s  AND Transaction_type = %s
     ORDER BY States ASC"""
   cursor.execute(sql_query2,(B, C, D))
   results = cursor.fetchall()
-  df1 = pd.DataFrame(results, columns = [ 'Transaction_count'])
+  df1 = pd.DataFrame(results, columns = [ 'Transaction_count',"Transaction_amount"])
   df4 = pd.concat([df_lat_lon,data ,df1], axis=1)
   return df4
 
 
 
-with tab3:
-  def geoo(Q):
+
+def geoo(Q):
     fig = px.choropleth(
       Q,
       geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
       featureidkey='properties.ST_NM',
       locations='states',
       color='Transaction_count',
+      hover_data=['Transaction_count', 'Transaction_amount'],
       color_continuous_scale='Reds',
       title=D
 )
     fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig)
+    fig.update_layout(height=1200, width=1400)
+    return fig
+    
+
+
+def geoo6(Q):
+    fig = px.choropleth(
+      Q,
+      geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
+      featureidkey='properties.ST_NM',
+      locations='states',
+      color='Transaction_amount',
+      animation_frame='Transaction_count',  
+)
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout( height = 600, width = 1000)
+    return fig
   
 
 
@@ -656,7 +673,10 @@ with tab3:
             if C!='Select':
               S = geo1()
               if S is not None:
-                geoo(S)
+                O = geoo(S)
+                j = geoo6(S)
+                st.plotly_chart(O)
+                st.plotly_chart(j)
                 
   
   
@@ -664,13 +684,13 @@ with tab3:
   
 def geo2():
   sql_query2 = """
-    SELECT Transaction_count
+    SELECT Transaction_count, Percentage
     FROM type_of_brand
     WHERE Years = %s AND Quarter = %s  AND Transaction_type = %s
     ORDER BY States ASC"""
   cursor.execute(sql_query2,(B, C, D))
   results = cursor.fetchall()
-  df1 = pd.DataFrame(results, columns = ['Transaction_count'])
+  df1 = pd.DataFrame(results, columns = ['Transaction_count','Percentage'])
   df4 = pd.concat([df_lat_lon,data ,df1], axis=1)
   return df4
 with tab3:
@@ -681,12 +701,31 @@ with tab3:
       featureidkey='properties.ST_NM',
       locations='states',
       color='Transaction_count',
+      hover_data = ["Percentage"],
       color_continuous_scale='Reds',
       title=D
 )
     fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig)
-    return 'success'
+    fig.update_layout(height=1000, width=1400)
+    return fig
+  
+  
+with tab3:
+  def geoo7(Q):
+    fig = px.choropleth(
+      Q,
+      geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
+      featureidkey='properties.ST_NM',
+      locations='states',
+      color='Transaction_count',
+      animation_frame='Percentage',  
+)
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout( height = 600, width = 1000)
+    return fig 
+  
+  
+  
 
 
 with tab3:
@@ -700,7 +739,10 @@ with tab3:
             if C!='Select':
               S = geo2()
               if S is not None:
-                geoo1(S)
+                H = geoo1(S)
+                h = geoo7(S)
+                st.plotly_chart(H)
+                st.plotly_chart(h)
                 
                 
                             
@@ -733,8 +775,23 @@ with tab3:
     
 )
     fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig)
-    return 'success'
+    fig.update_layout(height=1000, width=1400)
+    return fig
+  
+  
+with tab3:
+  def geoo8(Q):
+    fig = px.choropleth(
+      Q,
+      geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
+      featureidkey='properties.ST_NM',
+      locations='states',
+      color='Transaction_amount',
+      animation_frame='Transaction_count',  
+)
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout( height = 600, width = 1000)
+    return fig
 
 
 with tab3:
@@ -747,7 +804,11 @@ with tab3:
             if C!='Select':
               S = geo3()
               if S is not None:
-                geoo3(S)     
+                X = geoo3(S) 
+                x = geoo8(S)
+                st.plotly_chart(X)
+                st.plotly_chart(x)
+                    
                 
                 
                 
@@ -776,8 +837,8 @@ with tab3:
     
 )
     fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig)
-    return 'success'
+    fig.update_layout(height=1000, width=1400)
+    return fig
 
 with tab3:
   def geoo5(Q):
@@ -790,8 +851,8 @@ with tab3:
       animation_frame='RegisteredUser',  
 )
     fig.update_geos(fitbounds="locations", visible=False)
-    st.plotly_chart(fig)
-    return 'success'
+    fig.update_layout( height = 600, width = 1000)
+    return fig
 
 
 with tab3:
@@ -804,8 +865,10 @@ with tab3:
             if C!='Select':
               S = geo4()
               if S is not None:
-                geoo4(S)
-                geoo5(S)
+                Y = geoo4(S)
+                y = geoo5(S)
+                st.plotly_chart(Y)
+                st.plotly_chart(y)
 
 
 
